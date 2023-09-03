@@ -28,11 +28,11 @@ It was adapted to be run in PhaserJS, a Javascript game engine.
 **5. Buffs:**
    - Discover power-ups with various abilities, such as increased damage or defense.
 
-**7. Debuffs:**
+**6. Debuffs:**
    - Encounter random debuffs that challenge your gameplay.
    - Debuffs include cosmic storms, tsunamis, and asteroids.
 
-**6. XP System:**
+**7. XP System:**
    - Accumulate XP by defeating enemies and surviving for longer times.
    - Use XP to enhance your Kraken's abilities, increasing the time your Kraken lasts on the field.
 
