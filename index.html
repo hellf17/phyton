@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+</head>
+<body>
+  <p>Faça upload do arquivo PDF com os resultados dos exames para extrair os dados relevantes</p>
+  <input type="file" id="fileInput">
+  <button onclick="extractAndEditData()">Extrair resultados</button>
+  <br /><br />
+  <div>Resultados:</div>
+  <pre id="extractedData" style="width: 100%; white-space: pre-wrap;"></pre>
+  <br />
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const extractedDataElement = document.getElementById("extractedData");
+
+    async function readPDFFile(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          resolve(event.target.result);
+        };
+        reader.onerror = (event) => {
+          reject(new Error("Error reading file."));
+        };
+        reader.readAsArrayBuffer(file);
+      });
+    }
+
+    async function extractAndEditData() {
+      const selectedFile = fileInput.files[0];
+      if (!selectedFile) {
+        extractedDataElement.textContent = "No file selected.";
+        return;
+      }
+
+      try {
+        const pdfData = await readPDFFile(selectedFile);
+        const pyodide = await loadPyodide();
+
+        // Runs the Phyton script
+        const extractedAndEditedData = pyodide.runPython(`
+          extrair_campos_pagina(pdfData, )        
+        `);
+
+        // Display extracted data
+        const extractedData = extractedAndEditedData.split("---")[0];
+        extractedDataElement.textContent = extractedData;
+
+      } catch (error) {
+        extractedDataElement.textContent = "Error: " + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
